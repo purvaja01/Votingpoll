@@ -1,0 +1,15 @@
+.Container{
+    display: block;
+    padding-left: 40%;
+    padding-top: 10%;
+    align-items: center;
+
+}
+
+.Signin-change{
+    margin-left: 10%;
+}
+.Signin-heading{
+    color: #19015B;
+    margin-left: 15%;
+}
