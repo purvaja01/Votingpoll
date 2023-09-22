@@ -5,5 +5,6 @@ const route = new express.Router();
 
 
 route.post("/signup", ValidateSignupData.validateSignupData) 
+route.post("/signin", ValidateSignupData.validateLoginData)
 
 module.exports = route;
