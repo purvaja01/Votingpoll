@@ -9,5 +9,3 @@ const sequelize = new Sequelize('dbo', 'root', '12345678', {
 });
 
 module.exports = sequelize;
-
- 

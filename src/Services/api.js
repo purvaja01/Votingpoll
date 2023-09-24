@@ -22,6 +22,15 @@ class api{
             console.error('Error:', error);
           }
     }
+
+    async Createpollapi(newPoll){
+      try {
+        const response = await axios.post('http://localhost:8001/createpoll', newPoll);
+        console.log(response.data.message); 
+      } catch (error) {
+        console.error('Error creating poll:', error);
+      }
+    }
 }
 
 export default api;

@@ -1,9 +1,6 @@
 import api from "../Services/api";
 const apiobject = new api();
 
-
-
-
 class Userdatavalidation {
      static isValidEmail(email) {
         const emailPattern = /^[\w-]+(\.[\w-]+)*@jmangroup\.com$/;
