@@ -8,6 +8,7 @@ Poll.init(
         question: {
             type: DataTypes.STRING,
             allowNull: false,
+            unique: true,
         },
         choices: {
             type: DataTypes.JSON, // Store choices as JSON
@@ -16,6 +17,7 @@ Poll.init(
     },
     {
         sequelize,
+        modelName: "Poll",
         tableName: "polls", // Table name in the database (optional)
     }
 );

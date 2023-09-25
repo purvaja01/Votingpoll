@@ -1,5 +1,5 @@
 const dotenv = require('dotenv');
-// Load environment variables from a .env file
+
 dotenv.config();
 
 const Sequelize = require('sequelize');

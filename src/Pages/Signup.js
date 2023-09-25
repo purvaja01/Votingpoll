@@ -36,7 +36,7 @@ function SignUp() {
 
     // Use the Userdatavalidation class to perform validation
     const validationMessage = await validation.SignupValidation(userData);
-    console.log(validationMessage);
+    
     if (validationMessage === true){
       toast.success('User created successfully', {
         position: toast.POSITION.TOP_CENTER,

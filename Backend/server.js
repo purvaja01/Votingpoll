@@ -25,16 +25,6 @@ sequelize
 
 
 app.use(route)
-app.get("/api/users", (req , res) => {
-  db.query("SELECT * FROM users", (err, results) => {
-    if (err) {
-      console.error("Error fetching users:", err);
-      res.status(500).json({ error: "Error fetching users" });
-    } else {
-      res.json(results);
-    }
-  });
-});
 
 app.listen(8001, () => {
   console.log("Listening...");

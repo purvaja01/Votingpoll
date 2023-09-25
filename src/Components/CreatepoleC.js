@@ -1,10 +1,16 @@
 import React, { useState } from "react";
+import "./Createpole.css";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import createpoledb  from "../Utils/Createpole";
+import {Link, useNavigate } from "react-router-dom";
+
 
 function PollPage() {
   const [polls, setPolls] = useState([]);
   const [question, setQuestion] = useState("");
   const [choices, setChoices] = useState([]);
-
+  const navigate = useNavigate();
   const handleChoiceChange = (e, index) => {
     const updatedChoices = [...choices];
     updatedChoices[index] = e.target.value;
@@ -21,51 +27,85 @@ function PollPage() {
     setChoices(updatedChoices);
   };
 
-  const handleAddPoll = (e) => {
+  const handleAddPoll = async (e) => {
     e.preventDefault();
-    if (question.trim() !== "" && choices.length >= 2) {
+    navigate("/Dashboard")
+    if (question.trim() !== "" && choices.length >= 2){
       const newPoll = {
         question,
         choices,
       };
+
+      const createpoll = await createpoledb.createpolefunc(newPoll);
       setPolls([...polls, newPoll]);
       setQuestion("");
-      setChoices([]);
-    }
+      setChoices([]);   
+    }   
   };
 
   return (
     <div>
-      <h2>Create a Poll</h2>
-      <form onSubmit={handleAddPoll}>
-        <input
-          type="text"
-          placeholder="Poll Question"
+      <h2 className="createpoll1">Create a Poll</h2>
+      <form onSubmit={handleAddPoll} className="createpoll2">
+        <TextField
+          label="Enter Question Here"
+          variant="filled"
+          focused
           value={question}
           onChange={(e) => setQuestion(e.target.value)}
+          sx={{ marginLeft: 58, width: 400 }}
+          inputProps={{ style: { color: "#19015B" } }}
         />
+        <br/>
         {choices.map((choice, index) => (
           <div key={index}>
-            <input
-              type="text"
-              placeholder={`Choice ${index + 1}`}
-              value={choice}
+            <TextField
+              sx = {{ marginLeft: 65 }}
+              id = "standard-basic"
+              label = {`Choice ${index + 1}`}
+              variant ="standard"
+              type = "text"
+              value = {choice}
               onChange={(e) => handleChoiceChange(e, index)}
             />
-            <button type="button" onClick={() => removeChoice(index)}>
+
+            <Button
+              sx={{ marginTop: 2 }}
+              type="button"
+              onClick={() => removeChoice(index)}
+              variant="text"
+            >
               Remove Choice
-            </button>
+            </Button>
           </div>
         ))}
-        <button type="button" onClick={addChoice}>
+        <br />
+        <br />
+        <Button
+          variant="contained"
+          type="button"
+          onClick={addChoice}
+          disableElevation
+          sx={{
+            marginLeft: 58,
+            backgroundColor: "#19015B",
+          }}
+        >
           Add Choice
-        </button>
-        <button type="submit" onClick={createpole}>Create Poll</button>
+        </Button>
+        <Button
+        
+          sx={{
+            marginLeft: 20,
+          }}
+          type="button"
+          onClick={handleAddPoll}
+        >Create Poll
+        
+        </Button>
       </form>
     </div>
   );
 }
 
 export default PollPage;
-
-

@@ -24,8 +24,13 @@ class api{
     }
 
     async Createpollapi(newPoll){
+      console.log(newPoll,"dsfsf");
+      const polldata = {
+        question : newPoll.question,
+        choices : JSON.stringify(newPoll.choices)
+      }
       try {
-        const response = await axios.post('http://localhost:8001/createpoll', newPoll);
+        const response = await axios.post('http://localhost:8001/createpoll', polldata);
         console.log(response.data.message); 
       } catch (error) {
         console.error('Error creating poll:', error);

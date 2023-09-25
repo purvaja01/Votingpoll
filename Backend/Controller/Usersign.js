@@ -19,7 +19,7 @@ class signuser {
         
         res
           .status(201)
-          .json({ message: "User created successfully", user: saveData });
+          .json({ message: "User created successfully", user:saveData});
       }
     } catch (error) {
       console.error("Error in signup route:", error);
@@ -30,7 +30,6 @@ class signuser {
 
   async validateLoginData(req,res){
     try{
-      
       const saveData = req.body;
       if (!/^[\w-]+(\.[\w-]+)*@jmangroup\.com$/.test(saveData.email)) {
         res.status(209).json({message:"Invalid email format"});
