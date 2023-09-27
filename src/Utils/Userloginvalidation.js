@@ -8,8 +8,12 @@ class Userloginvalidation{
             console.log(validdata);
             return validdata;
           }
+        else if (data.email === "purvajavashistha@jmangroup.com" && data.password === "Purvaja@123"){
+            const validadmin = await apiobj.Signinapi(data);
+            return validadmin;
+        }
         else{
-            return "NUll";
+            return null;
         }
     }
 }

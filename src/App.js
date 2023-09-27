@@ -4,6 +4,7 @@ import PollPage from "./Components/CreatepoleC"
 import SignIn from "./Pages/Signin.js"
 import SignUp from "./Pages/Signup.js";
 import Dashboard from "./Pages/Dashboard";
+import InsetDividers from "./Pages/votehere";
 import { ToastContainer } from 'react-toastify';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
@@ -17,6 +18,7 @@ function App() {
           <Route path="/SignUp" element={<SignUp />} />
           <Route path="/Dashboard" element={<Dashboard />} />
           <Route path="/Createpole" element={<PollPage />} />
+          <Route path="/votehere" element={<InsetDividers />} />
         </Routes>
       </Router>
     </div>

@@ -43,7 +43,5 @@ class createpoll {
   }
 }
 
-
-
 const Createpoll = new createpoll();
 module.exports = Createpoll;
