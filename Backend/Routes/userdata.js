@@ -9,6 +9,6 @@ route.post("/signin", ValidateSignupData.validateLoginData)
 route.post("/createpoll", Createpoll.createpolldata)
 route.get('/createpoll' , Createpoll.getpolldata)
 route.delete('/softDelete/:id', Createpoll.softdelete)
-   
+route.post('/polldata',Createpoll.polldata)  
 
 module.exports = route;

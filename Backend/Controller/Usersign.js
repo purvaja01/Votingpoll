@@ -37,12 +37,10 @@ class signuser {
       }
       const userdata = await user.findOne({where : {email:saveData.email}});
       if (userdata === "purvajavashistha@jmangroup.com" && password === "Purvaja@123"){
-        user.isAdmin = true;
         res.status(200).json({userdata,message:"Login Successful."})
       }
       if (userdata){
         if (userdata.password === saveData.password){
-          user.isAdmin = false;
           res.status(200).json({userdata,message:"Login Successful."})
         }else{
           res.status(209).json({message:"Invalid Credentials."})

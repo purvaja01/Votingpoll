@@ -39,8 +39,14 @@ function SignIn() {
       toast.success("Login successfully", {
         position: toast.POSITION.TOP_CENTER,
       });
+      const data = JSON.parse(localStorage.getItem("loggedinuser"));
+
       setTimeout(() => {
-        navigate("/Dashboard");
+        if (data.isAdmin) {
+          navigate("/Dashboard");
+        } else {
+          navigate("/votehere");
+        }
       }, 1000);
     } else {
       toast.error("Enter Correct Credentials", {

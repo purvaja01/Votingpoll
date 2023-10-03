@@ -7,15 +7,23 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Button from "@mui/material/Button";
-import { Link } from "react-router-dom";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Radio from "@mui/material/Radio";
+import FormControl from "@mui/material/FormControl";
+import RadioGroup from "@mui/material/RadioGroup";
 import axios from "axios";
 
+const columns = [
+  { id: "name", label: "Sno.", minWidth: 170 },
+  { id: "code", label: "Created\u00a0Pole", minWidth: 100 },
+];
 
 export default function StickyHeadTable() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const [rows, setrows] = React.useState([]);
+
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -26,6 +34,10 @@ export default function StickyHeadTable() {
     setPage(0);
   };
 
+  // const [deleted, setDeleted]= React.useState(false);
+  const [rows, setrows] = React.useState([]);
+  const [rows1, setrows1] = React.useState([]);
+  const data = JSON.parse(localStorage.getItem("loggedinuser"))
 
   React.useEffect(() => {
     axios
@@ -36,6 +48,7 @@ export default function StickyHeadTable() {
           id: item.id,
           question: item.question,
         }));
+        // console.log(data);
         setrows(data);
       })
       .catch((error) => {
@@ -50,42 +63,46 @@ export default function StickyHeadTable() {
       const response = await axios.delete(
         `http://localhost:8001/softDelete/${id}`
       );
-      console.log("Server response:", response.data); // Check the server's response
+      //   console.log("Server response:", response.data); // Check the server's response
 
       // Assuming the server responds with some data indicating success
       if (response.data.success) {
         console.log("Row soft deleted successfully:", id);
         // setDeleted(true);
-        setTimeout(()=>{
-          window.location.reload()
-
-        })
-
+        setTimeout(() => {
+          window.location.reload();
+        });
 
         // Update the rows state to remove the deleted row
         setrows((prevRows) => prevRows.filter((row) => row.id !== id));
+        // console.log(rows);
       } else {
         console.error("Soft delete operation failed:", response.data.error);
-        setTimeout(()=>{
-          window.location.reload()
-
-        })
+        setTimeout(() => {
+          window.location.reload();
+        });
       }
     } catch (error) {
       console.error("Error soft deleting row:", error);
     }
   };
 
+  const [expandedRowId, setExpandedRowId] = React.useState(null);
+
+  const handleRowClick = async (rowId) => {
+    // Toggle the expanded state. If it's already open, close it; otherwise, open it.
+    setExpandedRowId((prevState) => (prevState === rowId ? null : rowId));
+    const response = await axios.post("http://localhost:8001/polldata", {
+      id: rowId,
+    });
+    setrows1(JSON.parse(response.data.data.choices));
+  };
+
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
       <h3 style={{ paddingLeft: "18%" }}>
-        Welcome Admin
-        <Button
-          variant="contained"
-          sx={{ backgroundColor: "#ffff", marginLeft: "50%" }}
-        >
-          <Link to={"/Createpole"}>Create Pole</Link>{" "}
-        </Button>
+        Welcome {data.name}
+        
       </h3>
       <TableContainer
         sx={{ maxHeight: 420, maxWidth: 850, marginX: "auto", right: 0 }}
@@ -103,18 +120,49 @@ export default function StickyHeadTable() {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+      
+                  <TableRow
+                    hover
+                    role="checkbox"
+                    tabIndex={-1}
+                    key={row.code}
+                  >
+                    
                     <TableCell>{row.id}</TableCell>
                     <TableCell>{row.question}</TableCell>
                     <TableCell>
-                      <Button
-                        variant="contained"
-                        sx={{ backgroundColor: "#19015B" }}
-                        onClick={() => handleSoftDelete(row.id)}
-                      >
-                        Remove
-                      </Button>
+                      {expandedRowId === row.id && (
+                        <div className="expanded-content">
+                          <h3>{row.question}</h3>
+                          {/* <ul>
+                            {rows1.map((choice, index) => (
+                              <li key={index}>{choice}</li>
+                            ))} */}
+                          
+                          <FormControl>
+                            <RadioGroup
+                              aria-labelledby="demo-radio-buttons-group-label"
+                              defaultValue="female"
+                              name="radio-buttons-group"
+                            >
+                              {rows1.map((choice,index) => (
+                                <FormControlLabel
+                                  value={choice}
+                                  control={<Radio />}
+                                  label={choice}
+                                />
+                              ))}
+                            </RadioGroup>
+                            <Button>Submit</Button>
+                          </FormControl>
+
+                          
+
+                          {/* </ul> */}
+                        </div>
+                      )}
                     </TableCell>
+                    <TableCell  onClick={() => handleRowClick(row.id)}><ExpandMoreIcon/></TableCell>
                   </TableRow>
                 );
               })}

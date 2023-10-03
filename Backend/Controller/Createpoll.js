@@ -41,6 +41,18 @@ class createpoll {
       res.status(500).json({ message: "Internal server error" });
     }
   }
+
+  async polldata(req, res) {
+    const {id} = req.body;
+    const finddata = await polls.findByPk(id);
+    if (finddata){
+      return res.status(200).json({data:finddata});
+    }
+    else{
+      return res.status(209).json({message:"not found"})
+    }
+
+  }
 }
 
 const Createpoll = new createpoll();
